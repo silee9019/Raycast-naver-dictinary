@@ -43,14 +43,12 @@ export async function getDictionaryData(word: string): Promise<DictionaryEntry[]
 }
 
 function processData(data: AutocompleteResponse): DictionaryEntry[] {
-  // Critical #2: data.items null 체크
   if (!data.items) {
     return [];
   }
 
   return data.items.flatMap((items) =>
     items
-      // Critical #1: 중첩 배열 접근 전 유효성 검사
       .filter((item) => {
         return item.length > 2 && item[0]?.[0] !== undefined && item[2]?.[0] !== undefined;
       })

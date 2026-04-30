@@ -23,7 +23,6 @@ export default function Command(): JSX.Element {
         setDictionaryData(data);
       } catch (error) {
         console.error("An error occurred:", error);
-        // Important #4: 사용자에게 에러 피드백 제공
         await showToast({
           style: Toast.Style.Failure,
           title: "검색 실패",
