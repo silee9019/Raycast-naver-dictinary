@@ -3,10 +3,12 @@
 This extension is for searching English-Korean dictionary on Naver. If you search a word in English or Korean, you can get the result of the word in English and Korean.
 
 ### Usage
-- ENTER: CopyToClipboard title
-- CMD + (1~4) : CopyToClipboard first subtitle.
-  - For example, the result is 'apple, apology, apologize' then 'CMD + 1' will copy 'apple' to clipboard.
-- CMD + `: Open browser and search title on Naver dictionary.
+- 검색어를 입력하면 네이버 영한 사전 자동완성 결과가 표시됩니다.
+- `Enter`: 선택한 단어의 상세 보기를 엽니다.
+- `CMD + 1`: 첫 번째 뜻을 클립보드에 복사합니다.
+- `CMD + A`: 전체 뜻을 클립보드에 복사합니다.
+- <kbd>CMD</kbd> + <kbd>`</kbd>: 선택한 단어를 네이버 사전에서 엽니다.
+- 상세 보기에서 단어, 발음 기호를 복사하거나 발음 오디오/네이버 사전 페이지를 열 수 있습니다.
 
 ### How to Install (Raycast 적용 방법)
 
