@@ -21,10 +21,10 @@ export interface WordDetailData {
 }
 
 export interface NaverDetailApiResponse {
-  searchResultMap: {
-    searchResultListMap: {
+  searchResultMap?: {
+    searchResultListMap?: {
       WORD?: {
-        items: NaverWordItem[];
+        items?: NaverWordItem[];
       };
     };
   };

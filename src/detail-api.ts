@@ -4,7 +4,7 @@ import { NaverDetailApiResponse, NaverWordItem, WordDetailData } from "./types.j
 const NAVER_SEARCH_API_URL = "https://en.dict.naver.com/api3/enko/search";
 
 export function getNaverEntryUrl(entryId: string): string {
-  return `https://en.dict.naver.com/#/entry/enko/${entryId}`;
+  return `https://en.dict.naver.com/#/entry/enko/${encodeURIComponent(entryId)}`;
 }
 
 /**
@@ -18,7 +18,6 @@ export async function fetchWordDetail(word: string): Promise<WordDetailData | nu
     return null;
   }
 
-  // Important #6: 에러는 throw하여 호출자가 "에러"와 "결과 없음"을 구분할 수 있도록 함
   const response = await axios.get<NaverDetailApiResponse>(NAVER_SEARCH_API_URL, {
     params: {
       m: "pc",
