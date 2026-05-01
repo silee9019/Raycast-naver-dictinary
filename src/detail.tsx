@@ -104,36 +104,45 @@ function formatPhoneticText(phonetic?: string, phoneticType?: string): string | 
   return `/${phonetic}/`;
 }
 
+function escapeMarkdown(text: string): string {
+  return text
+    .replace(/([\\`*_{}()#+\-.!|>])/g, "\\$1")
+    .replace(/\[/g, "\\[")
+    .replace(/]/g, "\\]");
+}
+
 function generateMarkdown(
   word: string,
   subtitle: string | undefined,
   detail: WordDetailData | null,
   error: string | null
 ): string {
+  const safeWord = escapeMarkdown(word);
+
   if (error) {
-    return `# ${word}\n\n⚠️ ${error}\n\n아래 액션에서 **네이버 사전에서 열기**를 선택하세요.`;
+    return `# ${safeWord}\n\n⚠️ ${escapeMarkdown(error)}\n\n아래 액션에서 **네이버 사전에서 열기**를 선택하세요.`;
   }
 
   if (!detail) {
-    return `# ${word}\n\n불러오는 중...`;
+    return `# ${safeWord}\n\n불러오는 중...`;
   }
 
-  let md = `# ${detail.word}\n\n`;
+  let md = `# ${escapeMarkdown(detail.word)}\n\n`;
 
   // 발음 기호
   if (detail.phonetic) {
     const phoneticLabel = detail.phoneticType ? ` (${detail.phoneticType})` : "";
-    md += `**발음:** \`/${detail.phonetic}/\`${phoneticLabel}\n\n`;
+    md += `**발음:** \`/${escapeMarkdown(detail.phonetic)}/\`${escapeMarkdown(phoneticLabel)}\n\n`;
   }
 
   // 기존 subtitle (자동완성에서 가져온 간단한 뜻)
   if (subtitle) {
-    md += `> ${subtitle}\n\n`;
+    md += `> ${escapeMarkdown(subtitle)}\n\n`;
   }
 
   // 출처 정보
   if (detail.source) {
-    md += `📖 *${detail.source}*\n\n`;
+    md += `📖 *${escapeMarkdown(detail.source)}*\n\n`;
   }
 
   md += `---\n\n`;
@@ -143,10 +152,10 @@ function generateMarkdown(
     md += `## 품사별 의미\n\n`;
 
     for (const meaning of detail.meanings) {
-      md += `### ${meaning.partOfSpeech}\n\n`;
+      md += `### ${escapeMarkdown(meaning.partOfSpeech)}\n\n`;
 
       meaning.definitions.forEach((def, index) => {
-        md += `${index + 1}. ${def}\n`;
+        md += `${index + 1}. ${escapeMarkdown(def)}\n`;
       });
 
       md += `\n`;

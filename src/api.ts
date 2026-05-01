@@ -5,6 +5,7 @@ import { DictionaryEntry } from "./types.js";
 export type { DictionaryEntry } from "./types.js";
 
 const NAVER_DICTIONARY_URL = "https://ac-dict.naver.com/enko/ac";
+const REQUEST_TIMEOUT_MS = 5000;
 
 /**
  * 네이버 자동완성 API 응답 구조
@@ -27,6 +28,7 @@ export async function getDictionaryData(word: string): Promise<DictionaryEntry[]
   const trimmedWord = word.trim();
 
   const response = await axios.get<AutocompleteResponse>(NAVER_DICTIONARY_URL, {
+    timeout: REQUEST_TIMEOUT_MS,
     params: {
       q_enc: "utf-8",
       st: 11001,
