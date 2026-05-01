@@ -15,26 +15,41 @@ export function WordDetail({ word, subtitle }: Props): JSX.Element {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isActive = true;
+
     const loadDetail = async () => {
       setIsLoading(true);
       setError(null);
+      setDetail(null);
 
       try {
         const data = await fetchWordDetail(word);
+        if (!isActive) {
+          return;
+        }
+
         if (data) {
           setDetail(data);
         } else {
           setError("단어 상세 정보를 찾을 수 없습니다.");
         }
       } catch (err) {
-        setError("상세 정보를 불러오는 중 오류가 발생했습니다.");
-        console.error(err);
+        if (isActive) {
+          setError("상세 정보를 불러오는 중 오류가 발생했습니다.");
+          console.error(err);
+        }
       } finally {
-        setIsLoading(false);
+        if (isActive) {
+          setIsLoading(false);
+        }
       }
     };
 
     loadDetail();
+
+    return () => {
+      isActive = false;
+    };
   }, [word]);
 
   const markdown = generateMarkdown(word, subtitle, detail, error);
