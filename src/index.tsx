@@ -1,5 +1,5 @@
 import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDebounce } from "react-use";
 import { DictionaryEntry, getDictionaryData } from "./api.js";
 import { WordDetail } from "./detail.js";
@@ -9,27 +9,42 @@ export default function Command(): JSX.Element {
   const [searchText, setSearchText] = useState("");
   const [dictionaryData, setDictionaryData] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const latestSearchId = useRef(0);
+
+  const handleSearchTextChange = (text: string) => {
+    latestSearchId.current += 1;
+    setSearchText(text);
+  };
 
   useDebounce(
     async () => {
+      const searchId = latestSearchId.current;
+
       if (!searchText?.trim()) {
         setDictionaryData([]);
+        setIsLoading(false);
         return;
       }
 
       setIsLoading(true);
       try {
         const data = await getDictionaryData(searchText);
-        setDictionaryData(data);
+        if (latestSearchId.current === searchId) {
+          setDictionaryData(data);
+        }
       } catch (error) {
-        console.error("An error occurred:", error);
-        await showToast({
-          style: Toast.Style.Failure,
-          title: "검색 실패",
-          message: error instanceof Error ? error.message : "사전 검색 중 오류가 발생했습니다",
-        });
+        if (latestSearchId.current === searchId) {
+          console.error("An error occurred:", error);
+          await showToast({
+            style: Toast.Style.Failure,
+            title: "검색 실패",
+            message: error instanceof Error ? error.message : "사전 검색 중 오류가 발생했습니다",
+          });
+        }
       } finally {
-        setIsLoading(false);
+        if (latestSearchId.current === searchId) {
+          setIsLoading(false);
+        }
       }
     },
     500,
@@ -37,7 +52,7 @@ export default function Command(): JSX.Element {
   );
 
   return (
-    <List onSearchTextChange={setSearchText} isLoading={isLoading} searchBarPlaceholder="Search word...">
+    <List onSearchTextChange={handleSearchTextChange} isLoading={isLoading} searchBarPlaceholder="Search word...">
       {dictionaryData?.map((el) => (
         <List.Item
           key={el.id}
