@@ -2,6 +2,7 @@ import axios from "axios";
 import { NaverDetailApiResponse, NaverWordItem, WordDetailData } from "./types.js";
 
 const NAVER_SEARCH_API_URL = "https://en.dict.naver.com/api3/enko/search";
+const REQUEST_TIMEOUT_MS = 5000;
 
 export function getNaverEntryUrl(entryId: string): string {
   return `https://en.dict.naver.com/#/entry/enko/${encodeURIComponent(entryId)}`;
@@ -19,6 +20,7 @@ export async function fetchWordDetail(word: string): Promise<WordDetailData | nu
   }
 
   const response = await axios.get<NaverDetailApiResponse>(NAVER_SEARCH_API_URL, {
+    timeout: REQUEST_TIMEOUT_MS,
     params: {
       m: "pc",
       query: word.trim(),

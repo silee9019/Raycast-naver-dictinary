@@ -8,7 +8,15 @@
   "title": "네이버 영한 사전",
   "description": "네이버 영한 사전에서 단어 검색",
   "icon": "command-icon.png",
-  "keywords": ["naver", "dict", "dictionary", "사전", "영어", "english", "번역"],
+  "keywords": [
+    "naver",
+    "dict",
+    "dictionary",
+    "사전",
+    "영어",
+    "english",
+    "번역"
+  ],
   "author": "gunflake09",
   "categories": [
     "Applications"
@@ -20,12 +28,20 @@
       "title": "단어 검색",
       "description": "네이버 영한 사전에서 단어 검색",
       "mode": "view",
-      "keywords": ["naver", "dict", "dictionary", "사전", "영어", "english", "번역"]
+      "keywords": [
+        "naver",
+        "dict",
+        "dictionary",
+        "사전",
+        "영어",
+        "english",
+        "번역"
+      ]
     }
   ],
   "dependencies": {
     "@raycast/api": "^1.57.1",
-    "axios": "^1.5.0",
+    "axios": "^1.15.0",
     "react-use": "^17.4.0"
   },
   "devDependencies": {
@@ -42,5 +58,13 @@
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
     "publish": "pnpm dlx @raycast/api@latest publish"
+  },
+  "pnpm": {
+    "overrides": {
+      "follow-redirects": "1.16.0",
+      "minimatch": "9.0.9",
+      "brace-expansion": "2.0.3",
+      "picomatch": "4.0.4"
+    }
   }
 }
