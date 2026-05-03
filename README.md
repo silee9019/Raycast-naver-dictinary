@@ -53,5 +53,5 @@ pnpm run dev
 pnpm run build
 ```
 
-### Reference 
+### Reference
 - [alfnaversearch](https://github.com/Kuniz/alfnaversearch)
