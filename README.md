@@ -15,7 +15,7 @@ This extension is for searching English-Korean dictionary on Naver. If you searc
 #### 사전 요구사항
 - [Raycast](https://raycast.com/) 설치 필요
 - [Node.js](https://nodejs.org/) 18.x 이상
-- pnpm (권장)
+- pnpm 9.15.4 (`package.json`의 `packageManager` 기준)
 
 #### 설치 단계
 
