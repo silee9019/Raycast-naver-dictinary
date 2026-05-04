@@ -178,3 +178,7 @@ dist
 
 # Claude Code local config
 .claude/
+
+# Repo-gardening automation scratch files
+.pr-body.md
+.worktrees/
