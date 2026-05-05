@@ -1,6 +1,8 @@
-# search-naver-en-ko-dictionary
+# search-naver-english-dictionary
 
 This extension is for searching English-Korean dictionary on Naver. If you search a word in English or Korean, you can get the result of the word in English and Korean.
+
+Raycast 표시 이름: `네이버 영한 사전`
 
 ### Usage
 - 검색어를 입력하면 네이버 영한 사전 자동완성 결과가 표시됩니다.
@@ -38,8 +40,8 @@ pnpm run dev
 
 **4. Raycast에서 확장 프로그램 확인**
 - Raycast 실행 (기본 단축키: `⌥ + Space`)
-- "Search Naver" 입력하여 확장 프로그램 검색
-- 검색 결과에 "Search Naver En Ko dictionary"가 표시되면 설치 완료!
+- "네이버 영한 사전" 또는 "단어 검색" 입력하여 확장 프로그램 검색
+- 검색 결과에 "네이버 영한 사전"이 표시되면 설치 완료!
 
 #### 수동으로 Import하기 (선택사항)
 개발 모드가 자동 인식되지 않는 경우:
