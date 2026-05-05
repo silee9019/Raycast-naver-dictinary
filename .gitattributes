@@ -3,6 +3,7 @@
 # Keep Raycast extension source/config/docs reproducible across platforms.
 .gitattributes text eol=lf
 .editorconfig text eol=lf
+.gitignore text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf
 *.json text eol=lf

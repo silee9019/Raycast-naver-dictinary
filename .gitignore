@@ -7,8 +7,8 @@
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
-Icon
+# Ignore macOS Icon files with trailing control characters without storing literal CR bytes.
+Icon[[:cntrl:]]
 
 # Thumbnails
 ._*
