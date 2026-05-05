@@ -55,5 +55,10 @@ pnpm run dev
 pnpm run build
 ```
 
+#### 로컬 Raycast에 빌드 후 설치 (macOS)
+```bash
+pnpm run install-extension
+```
+
 ### Reference
 - [alfnaversearch](https://github.com/Kuniz/alfnaversearch)
