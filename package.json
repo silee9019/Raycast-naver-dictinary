@@ -53,9 +53,10 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
-    "build": "ray build -e dist && open \"raycast://extensions/install?path=$(pwd)\"",
+    "build": "ray build -e dist",
     "dev": "ray develop",
     "fix-lint": "ray lint --fix",
+    "install-extension": "ray build -e dist && open \"raycast://extensions/install?path=$(pwd)\"",
     "lint": "ray lint",
     "publish": "pnpm dlx @raycast/api@latest publish"
   },
