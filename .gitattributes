@@ -16,3 +16,6 @@
 *.iml text eol=lf
 .npmrc text eol=lf
 .prettierrc text eol=lf
+
+# Treat Raycast icons and store screenshots as binary assets.
+*.png binary
