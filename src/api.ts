@@ -14,11 +14,15 @@ const REQUEST_TIMEOUT_MS = 5000;
  * - fieldIndex 2: 뜻 (한글 번역)
  */
 interface AutocompleteResponse {
-  items?: AutocompleteItem[][][];
+  items?: AutocompleteField[][];
 }
 
-/** 자동완성 항목 - [값, ...추가정보] 형태의 배열 */
-type AutocompleteItem = string[];
+/**
+ * 자동완성 항목의 필드 구조
+ * - item[0][0]: 표제어
+ * - item[2][0]: 번역(첫 번째 뜻)
+ */
+type AutocompleteField = string[][];
 
 export async function getDictionaryData(word: string): Promise<DictionaryEntry[]> {
   if (!word?.trim()) {
@@ -51,13 +55,19 @@ function processData(data: AutocompleteResponse): DictionaryEntry[] {
 
   return data.items.flatMap((items) =>
     items
-      .filter((item) => {
-        return item.length > 2 && item[0]?.[0] !== undefined && item[2]?.[0] !== undefined;
+      .map((item) => {
+        const title = item[0]?.[0];
+        const subtitle = item[2]?.[0];
+        if (!title || !subtitle) {
+          return null;
+        }
+
+        return {
+          id: crypto.randomUUID(),
+          title,
+          subtitle,
+        };
       })
-      .map((item) => ({
-        id: crypto.randomUUID(),
-        title: item[0][0],
-        subtitle: item[2][0],
-      }))
+      .filter((entry): entry is DictionaryEntry => entry !== null)
   );
 }
