@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as crypto from "crypto";
 import { DictionaryEntry } from "./types.js";
 
 export type { DictionaryEntry } from "./types.js";
@@ -63,7 +62,7 @@ function processData(data: AutocompleteResponse): DictionaryEntry[] {
         }
 
         return {
-          id: crypto.randomUUID(),
+          id: `${title}::${subtitle}`,
           title,
           subtitle,
         };
