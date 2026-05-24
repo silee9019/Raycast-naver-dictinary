@@ -49,6 +49,23 @@ function stripHtml(html: string): string {
     .trim();
 }
 
+function toSafeHttpUrl(value?: string): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.toString();
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
 function parseWordItem(item: NaverWordItem): WordDetailData {
   const phoneticInfo = item.searchPhoneticSymbolList?.find((p) => p.symbolValue);
 
@@ -66,7 +83,7 @@ function parseWordItem(item: NaverWordItem): WordDetailData {
     entryId: item.entryId,
     phonetic: phoneticInfo?.symbolValue,
     phoneticType: phoneticInfo?.symbolType || phoneticInfo?.symbolTypeCode,
-    audioUrl: phoneticInfo?.symbolFile,
+    audioUrl: toSafeHttpUrl(phoneticInfo?.symbolFile),
     source: item.sourceDictnameKO,
     dictType: item.expDictTypeForm,
     meanings,
