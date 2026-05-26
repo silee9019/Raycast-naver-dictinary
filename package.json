@@ -7,7 +7,7 @@
   },
   "title": "네이버 영한 사전",
   "description": "네이버 영한 사전에서 단어 검색",
-  "icon": "command-icon.png",
+  "icon": "assets/command-icon.png",
   "keywords": [
     "naver",
     "dict",
