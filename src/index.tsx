@@ -1,6 +1,5 @@
 import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api";
-import { useRef, useState } from "react";
-import { useDebounce } from "react-use";
+import { useEffect, useRef, useState } from "react";
 import { DictionaryEntry, getDictionaryData } from "./api.js";
 import { WordDetail } from "./detail.js";
 import { getNaverDictionaryUrl } from "./function.js";
@@ -16,19 +15,20 @@ export default function Command(): JSX.Element {
     setSearchText(text);
   };
 
-  useDebounce(
-    async () => {
-      const searchId = latestSearchId.current;
+  useEffect(() => {
+    const searchId = latestSearchId.current;
+    const trimmedSearchText = searchText.trim();
 
-      if (!searchText?.trim()) {
-        setDictionaryData([]);
-        setIsLoading(false);
-        return;
-      }
+    if (!trimmedSearchText) {
+      setDictionaryData([]);
+      setIsLoading(false);
+      return;
+    }
 
+    const timer = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const data = await getDictionaryData(searchText);
+        const data = await getDictionaryData(trimmedSearchText);
         if (latestSearchId.current === searchId) {
           setDictionaryData(data);
         }
@@ -46,10 +46,12 @@ export default function Command(): JSX.Element {
           setIsLoading(false);
         }
       }
-    },
-    500,
-    [searchText]
-  );
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchText]);
 
   return (
     <List onSearchTextChange={handleSearchTextChange} isLoading={isLoading} searchBarPlaceholder="Search word...">
