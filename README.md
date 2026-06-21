@@ -12,6 +12,16 @@ Raycast 표시 이름: `네이버 영한 사전`
 - <kbd>CMD</kbd> + <kbd>`</kbd>: 선택한 단어를 네이버 사전에서 엽니다.
 - 상세 보기에서 단어, 발음 기호를 복사하거나 발음 오디오/네이버 사전 페이지를 열 수 있습니다.
 
+### Development Commands
+| Command | Purpose |
+| --- | --- |
+| `pnpm run dev` | Raycast 개발 모드로 확장 프로그램을 실행합니다. |
+| `pnpm run lint` | Raycast ESLint 설정으로 소스 코드를 검사합니다. |
+| `pnpm run fix-lint` | 자동 수정 가능한 린트/포맷 문제를 정리합니다. |
+| `pnpm run build` | 배포용 Raycast 확장 프로그램을 빌드합니다. |
+| `pnpm run install-extension` | 빌드 후 로컬 Raycast에 확장 프로그램을 설치합니다. |
+| `pnpm run publish` | Raycast 스토어 게시 플로우를 실행합니다. |
+
 ### How to Install (Raycast 적용 방법)
 
 #### 사전 요구사항
