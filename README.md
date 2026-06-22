@@ -37,12 +37,19 @@ git clone https://github.com/silee9019/Raycast-naver-dictinary.git
 cd Raycast-naver-dictinary
 ```
 
-**2. 의존성 설치**
+**2. pnpm 버전 준비**
+```bash
+corepack enable
+corepack prepare pnpm@9.15.4 --activate
+```
+> `package.json`의 `packageManager`와 동일한 pnpm 버전을 사용하면 잠금 파일 변경을 줄일 수 있습니다.
+
+**3. 의존성 설치**
 ```bash
 pnpm install
 ```
 
-**3. 개발 모드로 실행**
+**4. 개발 모드로 실행**
 ```bash
 pnpm run dev
 ```
