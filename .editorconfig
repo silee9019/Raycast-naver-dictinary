@@ -9,10 +9,14 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 
-[{*.ts,*.tsx,*.d.ts,*.json,.prettierrc}]
+[{*.ts,*.tsx,*.d.ts,*.json,*.yaml,*.yml,.prettierrc}]
 indent_style = space
 indent_size = 2
 
 [{*.xml,*.iml}]
+indent_style = space
+indent_size = 2
+
+[*.lock]
 indent_style = space
 indent_size = 2
