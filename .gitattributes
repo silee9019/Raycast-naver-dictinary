@@ -19,3 +19,9 @@
 
 # Treat Raycast icons and store screenshots as binary assets.
 *.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.icns binary
+*.ico binary
