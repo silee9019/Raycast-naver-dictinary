@@ -1,18 +1,18 @@
 # search-naver-english-dictionary
 
-This extension is for searching English-Korean dictionary on Naver. If you search a word in English or Korean, you can get the result of the word in English and Korean.
+Search Naver's English-Korean dictionary from Raycast. Enter an English or Korean word to view autocomplete results, then open a detailed dictionary entry when needed.
 
 Raycast 표시 이름: `네이버 영한 사전`
 
 ### Usage
 - 검색어를 입력하면 네이버 영한 사전 자동완성 결과가 표시됩니다.
-- `Enter`: 선택한 단어의 상세 보기를 엽니다.
-- `CMD + 1`: 첫 번째 뜻을 클립보드에 복사합니다.
-- `CMD + A`: 전체 뜻을 클립보드에 복사합니다.
+- <kbd>Enter</kbd>: 선택한 단어의 상세 보기를 엽니다.
+- <kbd>CMD</kbd> + <kbd>1</kbd>: 첫 번째 뜻을 클립보드에 복사합니다.
+- <kbd>CMD</kbd> + <kbd>A</kbd>: 전체 뜻을 클립보드에 복사합니다.
 - <kbd>CMD</kbd> + <kbd>`</kbd>: 선택한 단어를 네이버 사전에서 엽니다.
 - 상세 보기에서 단어, 발음 기호를 복사하거나 발음 오디오/네이버 사전 페이지를 열 수 있습니다.
-- `CMD + P`: 상세 보기에서 발음 기호를 클립보드에 복사합니다.
-- `CMD + L`: 상세 보기에서 발음 오디오를 브라우저로 엽니다.
+- <kbd>CMD</kbd> + <kbd>P</kbd>: 상세 보기에서 발음 기호를 클립보드에 복사합니다.
+- <kbd>CMD</kbd> + <kbd>L</kbd>: 상세 보기에서 발음 오디오를 브라우저로 엽니다.
 
 ### Development Commands
 | Command | Purpose |
