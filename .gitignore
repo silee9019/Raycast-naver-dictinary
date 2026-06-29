@@ -179,6 +179,9 @@ dist
 # Claude Code local config
 .claude/
 
+# Local IDE metadata
+.idea/
+
 # Repo-gardening automation scratch files
 .pr-body.md
 pr_body.md
