@@ -5,6 +5,7 @@ Search Naver's English-Korean dictionary from Raycast. Enter an English or Korea
 Raycast 표시 이름: `네이버 영한 사전`
 
 ### Usage
+
 - 검색어를 입력하면 네이버 영한 사전 자동완성 결과가 표시됩니다.
 - <kbd>Enter</kbd>: 선택한 단어의 상세 보기를 엽니다.
 - <kbd>CMD</kbd> + <kbd>1</kbd>: 첫 번째 뜻을 클립보드에 복사합니다.
@@ -15,6 +16,7 @@ Raycast 표시 이름: `네이버 영한 사전`
 - <kbd>CMD</kbd> + <kbd>L</kbd>: 상세 보기에서 발음 오디오를 브라우저로 엽니다.
 
 ### Development Commands
+
 | Command | Purpose |
 | --- | --- |
 | `pnpm run dev` | Raycast 개발 모드로 확장 프로그램을 실행합니다. |
@@ -27,6 +29,7 @@ Raycast 표시 이름: `네이버 영한 사전`
 ### How to Install (Raycast 적용 방법)
 
 #### 사전 요구사항
+
 - [Raycast](https://raycast.com/) 설치 필요
 - [Node.js](https://nodejs.org/) 18.x 이상
 - pnpm 9.15.4 (`package.json`의 `packageManager` 기준)
