@@ -1,0 +1,3 @@
+[tasks.lint]
+description = "Check repository text hygiene"
+run = "sh scripts/check-editorconfig-hygiene.sh"
