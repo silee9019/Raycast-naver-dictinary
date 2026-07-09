@@ -24,7 +24,7 @@ Raycast 표시 이름: `네이버 영한 사전`
 | `pnpm run fix-lint` | 자동 수정 가능한 린트/포맷 문제를 정리합니다. |
 | `pnpm run build` | 배포용 Raycast 확장 프로그램을 빌드합니다. |
 | `pnpm run install-extension` | 빌드 후 로컬 Raycast에 확장 프로그램을 설치합니다. |
-| `pnpm run publish` | Raycast 스토어 게시 플로우를 실행합니다. |
+| `pnpm run publish` | Raycast 계정 권한이 준비된 환경에서 스토어 게시 플로우를 실행합니다. |
 
 ### How to Install (Raycast 적용 방법)
 
