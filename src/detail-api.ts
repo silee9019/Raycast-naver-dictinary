@@ -1,11 +1,11 @@
 import axios from "axios";
+import { dictionaries, type DictionaryCode } from "./dictionaries.js";
 import { NaverDetailApiResponse, NaverWordItem, WordDetailData } from "./types.js";
 
-const NAVER_SEARCH_API_URL = "https://en.dict.naver.com/api3/enko/search";
 const REQUEST_TIMEOUT_MS = 5000;
 
-export function getNaverEntryUrl(entryId: string): string {
-  return `https://en.dict.naver.com/#/entry/enko/${encodeURIComponent(entryId)}`;
+export function getNaverEntryUrl(dictionaryCode: DictionaryCode, entryId: string): string {
+  return `${dictionaries[dictionaryCode].webBaseUrl}/#/entry/${dictionaryCode}/${encodeURIComponent(entryId)}`;
 }
 
 /**
@@ -14,12 +14,16 @@ export function getNaverEntryUrl(entryId: string): string {
  * @returns null - 단어를 찾을 수 없음 (정상적인 "결과 없음")
  * @throws Error - API 호출 실패 (네트워크 오류, 서버 오류 등)
  */
-export async function fetchWordDetail(word: string): Promise<WordDetailData | null> {
+export async function fetchWordDetail(
+  word: string,
+  dictionaryCode: DictionaryCode,
+  entryId?: string
+): Promise<WordDetailData | null> {
   if (!word?.trim()) {
     return null;
   }
 
-  const response = await axios.get<NaverDetailApiResponse>(NAVER_SEARCH_API_URL, {
+  const response = await axios.get<NaverDetailApiResponse>(dictionaries[dictionaryCode].detailApiUrl, {
     timeout: REQUEST_TIMEOUT_MS,
     params: {
       m: "pc",
@@ -29,7 +33,7 @@ export async function fetchWordDetail(word: string): Promise<WordDetailData | nu
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       Accept: "application/json, text/plain, */*",
-      Referer: "https://en.dict.naver.com/",
+      Referer: `${dictionaries[dictionaryCode].webBaseUrl}/`,
     },
   });
 
@@ -38,7 +42,8 @@ export async function fetchWordDetail(word: string): Promise<WordDetailData | nu
     return null; // "결과 없음" - 정상적인 상황
   }
 
-  return parseWordItem(wordItems[0]);
+  const wordItem = entryId === undefined ? wordItems[0] : wordItems.find((item) => item.entryId === entryId);
+  return wordItem ? parseWordItem(wordItem) : null;
 }
 
 function stripHtml(html: string): string {
@@ -67,7 +72,9 @@ function toSafeHttpUrl(value?: string): string | undefined {
 }
 
 function parseWordItem(item: NaverWordItem): WordDetailData {
-  const phoneticInfo = item.searchPhoneticSymbolList?.find((p) => p.symbolValue);
+  const phoneticInfo =
+    item.searchPhoneticSymbolList?.find((p) => p.symbolValue) ||
+    item.searchPhoneticSymbolList?.find((p) => p.symbolFile);
 
   const meanings =
     item.meansCollector

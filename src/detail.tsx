@@ -1,15 +1,18 @@
 import { Action, ActionPanel, Detail } from "@raycast/api";
 import { useEffect, useState } from "react";
+import { type DictionaryCode } from "./dictionaries.js";
 import { fetchWordDetail, getNaverEntryUrl } from "./detail-api.js";
 import { getNaverDictionaryUrl } from "./function.js";
 import { WordDetailData } from "./types.js";
 
 interface Props {
+  dictionaryCode: DictionaryCode;
   word: string;
   subtitle?: string;
+  entryId?: string;
 }
 
-export function WordDetail({ word, subtitle }: Props): JSX.Element {
+export function WordDetail({ dictionaryCode, word, subtitle, entryId }: Props): JSX.Element {
   const [detail, setDetail] = useState<WordDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +26,7 @@ export function WordDetail({ word, subtitle }: Props): JSX.Element {
       setDetail(null);
 
       try {
-        const data = await fetchWordDetail(word);
+        const data = await fetchWordDetail(word, dictionaryCode, entryId);
         if (!isActive) {
           return;
         }
@@ -50,12 +53,14 @@ export function WordDetail({ word, subtitle }: Props): JSX.Element {
     return () => {
       isActive = false;
     };
-  }, [word]);
+  }, [dictionaryCode, entryId, word]);
 
   const markdown = generateMarkdown(word, subtitle, detail, error);
 
   // entryId가 있으면 entry URL, 없으면 검색 URL 사용
-  const naverUrl = detail?.entryId ? getNaverEntryUrl(detail.entryId) : getNaverDictionaryUrl(word);
+  const naverUrl = detail?.entryId
+    ? getNaverEntryUrl(dictionaryCode, detail.entryId)
+    : getNaverDictionaryUrl(word, dictionaryCode);
 
   return (
     <Detail
