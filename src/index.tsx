@@ -1,10 +1,11 @@
 import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api";
 import { useEffect, useRef, useState } from "react";
 import { DictionaryEntry, getDictionaryData } from "./api.js";
+import { type DictionaryCode } from "./dictionaries.js";
 import { WordDetail } from "./detail.js";
 import { getNaverDictionaryUrl } from "./function.js";
 
-export default function Command(): JSX.Element {
+export function DictionarySearch({ dictionaryCode }: { dictionaryCode: DictionaryCode }): JSX.Element {
   const [searchText, setSearchText] = useState("");
   const [dictionaryData, setDictionaryData] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function Command(): JSX.Element {
     const timer = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const data = await getDictionaryData(trimmedSearchText);
+        const data = await getDictionaryData(trimmedSearchText, dictionaryCode);
         if (latestSearchId.current === searchId) {
           setDictionaryData(data);
         }
@@ -51,7 +52,7 @@ export default function Command(): JSX.Element {
     return () => {
       clearTimeout(timer);
     };
-  }, [searchText]);
+  }, [dictionaryCode, searchText]);
 
   return (
     <List onSearchTextChange={handleSearchTextChange} isLoading={isLoading} searchBarPlaceholder="Search word...">
@@ -62,21 +63,35 @@ export default function Command(): JSX.Element {
           subtitle={el.subtitle}
           actions={
             <ActionPanel>
-              <Action.Push title="상세보기" target={<WordDetail word={el.title} subtitle={el.subtitle} />} />
+              <Action.Push
+                title="상세보기"
+                target={
+                  <WordDetail
+                    dictionaryCode={dictionaryCode}
+                    word={el.title}
+                    subtitle={el.subtitle}
+                    entryId={el.entryId}
+                  />
+                }
+              />
               <Action.CopyToClipboard title="단어 복사" content={el.title} />
-              <Action.CopyToClipboard
-                title="첫 번째 뜻 복사"
-                content={el.subtitle.split(",")[0]?.trim() || el.subtitle}
-                shortcut={{ modifiers: ["cmd"], key: "1" }}
-              />
-              <Action.CopyToClipboard
-                title="전체 뜻 복사"
-                content={el.subtitle}
-                shortcut={{ modifiers: ["cmd"], key: "a" }}
-              />
+              {el.subtitle && (
+                <>
+                  <Action.CopyToClipboard
+                    title="첫 번째 뜻 복사"
+                    content={el.subtitle.split(",")[0]?.trim() || el.subtitle}
+                    shortcut={{ modifiers: ["cmd"], key: "1" }}
+                  />
+                  <Action.CopyToClipboard
+                    title="전체 뜻 복사"
+                    content={el.subtitle}
+                    shortcut={{ modifiers: ["cmd"], key: "a" }}
+                  />
+                </>
+              )}
               <Action.OpenInBrowser
                 title="네이버 사전에서 열기"
-                url={getNaverDictionaryUrl(el.title)}
+                url={getNaverDictionaryUrl(el.title, dictionaryCode)}
                 shortcut={{ modifiers: ["cmd"], key: "`" }}
               />
             </ActionPanel>
@@ -85,4 +100,8 @@ export default function Command(): JSX.Element {
       ))}
     </List>
   );
+}
+
+export default function Command(): JSX.Element {
+  return <DictionarySearch dictionaryCode="enko" />;
 }

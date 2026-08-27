@@ -1,7 +1,8 @@
 export interface DictionaryEntry {
   id: string;
+  entryId?: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 export interface Meaning {

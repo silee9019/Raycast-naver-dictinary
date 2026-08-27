@@ -15,10 +15,18 @@ declare type Preferences = ExtensionPreferences
 declare namespace Preferences {
   /** Preferences accessible in the `index` command */
   export type Index = ExtensionPreferences & {}
+  /** Preferences accessible in the `korean` command */
+  export type Korean = ExtensionPreferences & {}
+  /** Preferences accessible in the `spanish` command */
+  export type Spanish = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
   /** Arguments passed to the `index` command */
   export type Index = {}
+  /** Arguments passed to the `korean` command */
+  export type Korean = {}
+  /** Arguments passed to the `spanish` command */
+  export type Spanish = {}
 }
 

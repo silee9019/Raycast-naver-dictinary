@@ -1,15 +1,16 @@
 # search-naver-english-dictionary
 
-Search Naver's English-Korean dictionary from Raycast. Enter an English or Korean word to view autocomplete results, then open a detailed dictionary entry when needed.
+Search Naver's English-Korean, Korean, and Spanish-Korean dictionaries from Raycast. Enter a word to view autocomplete results, then open a detailed dictionary entry when needed.
 
-Raycast 표시 이름: `네이버 영한 사전`
+Raycast 표시 이름: `네이버 다국어 사전`
 
 ### Usage
 
-- 검색어를 입력하면 네이버 영한 사전 자동완성 결과가 표시됩니다.
+- Raycast에서 영한 사전 검색, 국어 사전 검색, 스페인어-한국어 사전 검색 중 하나를 실행합니다.
+- 검색어를 입력하면 선택한 네이버 사전의 자동완성 결과가 표시됩니다. 국어 사전은 제목만 표시하고 상세 보기에서 의미를 제공합니다.
 - <kbd>Enter</kbd>: 선택한 단어의 상세 보기를 엽니다.
-- <kbd>⌘</kbd> + <kbd>1</kbd>: 첫 번째 뜻을 클립보드에 복사합니다.
-- <kbd>⌘</kbd> + <kbd>A</kbd>: 전체 뜻을 클립보드에 복사합니다.
+- <kbd>⌘</kbd> + <kbd>1</kbd>: 자동완성에 뜻이 있는 사전에서 첫 번째 뜻을 클립보드에 복사합니다.
+- <kbd>⌘</kbd> + <kbd>A</kbd>: 자동완성에 뜻이 있는 사전에서 전체 뜻을 클립보드에 복사합니다.
 - <kbd>⌘</kbd> + <kbd>`</kbd>: 선택한 단어를 네이버 사전에서 엽니다.
 - 상세 보기에서 단어, 발음 기호를 복사하거나 발음 오디오/네이버 사전 페이지를 열 수 있습니다.
 - <kbd>⌘</kbd> + <kbd>P</kbd>: 상세 보기에서 발음 기호를 클립보드에 복사합니다.
@@ -62,8 +63,8 @@ pnpm run dev
 
 **5. Raycast에서 확장 프로그램 확인**
 - Raycast 실행 (기본 단축키: `⌥ + Space`)
-- "네이버 영한 사전" 또는 "단어 검색" 입력하여 확장 프로그램 검색
-- 검색 결과에 "네이버 영한 사전"이 표시되면 설치 완료!
+- "네이버 다국어 사전", "영한 사전 검색", "국어 사전 검색" 또는 "스페인어-한국어 사전 검색"을 입력하여 확장 프로그램 검색
+- 검색 결과에 세 사전 명령이 표시되면 설치 완료!
 
 #### 수동으로 Import하기 (선택사항)
 개발 모드가 자동 인식되지 않는 경우:
