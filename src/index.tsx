@@ -1,24 +1,19 @@
 import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { DictionaryEntry, getDictionaryData } from "./api.js";
 import { type DictionaryCode } from "./dictionaries.js";
 import { WordDetail } from "./detail.js";
 import { getNaverDictionaryUrl } from "./function.js";
 
 export function DictionarySearch({ dictionaryCode }: { dictionaryCode: DictionaryCode }): JSX.Element {
-  const [searchText, setSearchText] = useState("");
   const [dictionaryData, setDictionaryData] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const latestSearchId = useRef(0);
 
-  const handleSearchTextChange = (text: string) => {
-    latestSearchId.current += 1;
-    setSearchText(text);
-  };
-
-  useEffect(() => {
-    const searchId = latestSearchId.current;
-    const trimmedSearchText = searchText.trim();
+  const handleSearchTextChange = async (text: string) => {
+    const searchId = latestSearchId.current + 1;
+    latestSearchId.current = searchId;
+    const trimmedSearchText = text.trim();
 
     if (!trimmedSearchText) {
       setDictionaryData([]);
@@ -26,36 +21,35 @@ export function DictionarySearch({ dictionaryCode }: { dictionaryCode: Dictionar
       return;
     }
 
-    const timer = setTimeout(async () => {
-      setIsLoading(true);
-      try {
-        const data = await getDictionaryData(trimmedSearchText, dictionaryCode);
-        if (latestSearchId.current === searchId) {
-          setDictionaryData(data);
-        }
-      } catch (error) {
-        if (latestSearchId.current === searchId) {
-          console.error("An error occurred:", error);
-          await showToast({
-            style: Toast.Style.Failure,
-            title: "검색 실패",
-            message: error instanceof Error ? error.message : "사전 검색 중 오류가 발생했습니다",
-          });
-        }
-      } finally {
-        if (latestSearchId.current === searchId) {
-          setIsLoading(false);
-        }
+    setIsLoading(true);
+    try {
+      const data = await getDictionaryData(trimmedSearchText, dictionaryCode);
+      if (latestSearchId.current === searchId) {
+        setDictionaryData(data);
       }
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [dictionaryCode, searchText]);
+    } catch (error) {
+      if (latestSearchId.current === searchId) {
+        console.error("An error occurred:", error);
+        await showToast({
+          style: Toast.Style.Failure,
+          title: "검색 실패",
+          message: error instanceof Error ? error.message : "사전 검색 중 오류가 발생했습니다",
+        });
+      }
+    } finally {
+      if (latestSearchId.current === searchId) {
+        setIsLoading(false);
+      }
+    }
+  };
 
   return (
-    <List onSearchTextChange={handleSearchTextChange} isLoading={isLoading} searchBarPlaceholder="Search word...">
+    <List
+      throttle
+      onSearchTextChange={handleSearchTextChange}
+      isLoading={isLoading}
+      searchBarPlaceholder="Search word..."
+    >
       {dictionaryData?.map((el) => (
         <List.Item
           key={el.id}
