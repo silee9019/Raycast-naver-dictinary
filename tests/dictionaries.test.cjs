@@ -1,5 +1,6 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
+const Module = require("node:module");
 const path = require("node:path");
 const test = require("node:test");
 const ts = require("typescript");
@@ -32,6 +33,60 @@ function loadDictionaries() {
   const module = { exports: {} };
   new Function("exports", "module", javascript)(module.exports, module);
   return module.exports.dictionaries;
+}
+
+function loadDictionarySearch(getDictionaryData) {
+  const sourcePath = path.join(__dirname, "../src/index.tsx");
+  const originalLoad = Module._load;
+  const previousLoader = require.extensions[".tsx"];
+  const updates = [];
+
+  require.extensions[".tsx"] = (module, filename) => {
+    const source = fs.readFileSync(filename, "utf8");
+    const javascript = ts
+      .transpileModule(source, {
+        compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2021, jsx: ts.JsxEmit.ReactJSX },
+      })
+      .outputText.replace(/(\.\/[^"']+)\.js/g, "$1.ts");
+    module._compile(javascript, filename);
+  };
+
+  Module._load = (request, parent, isMain) => {
+    if (request === "react") {
+      return {
+        createElement: (type, props) => ({ type, props }),
+        useEffect: (effect) => effect(),
+        useRef: (current) => ({ current }),
+        useState: (initial) => [initial, (value) => updates.push(value)],
+      };
+    }
+    if (request === "react/jsx-runtime") {
+      return { jsx: (type, props) => ({ type, props }), jsxs: (type, props) => ({ type, props }) };
+    }
+    if (request === "@raycast/api") {
+      return { Action: {}, ActionPanel: {}, List: () => null, Toast: { Style: { Failure: "failure" } }, showToast: async () => {} };
+    }
+    if (request === "./api.ts") {
+      return { getDictionaryData };
+    }
+    if (request === "./detail.ts") {
+      return { WordDetail: () => null };
+    }
+    if (request === "./function.ts") {
+      return { getNaverDictionaryUrl: () => "" };
+    }
+    return originalLoad(request, parent, isMain);
+  };
+
+  try {
+    delete require.cache[sourcePath];
+    const { DictionarySearch } = require(sourcePath);
+    return { props: DictionarySearch({ dictionaryCode: "enko" }).props, updates };
+  } finally {
+    delete require.cache[sourcePath];
+    Module._load = originalLoad;
+    require.extensions[".tsx"] = previousLoader;
+  }
 }
 
 test("dictionary routes keep the verified Naver endpoints and meaning fields", () => {
@@ -104,4 +159,36 @@ test("autocomplete selection keeps the second same-title entry through detail an
   } finally {
     axios.get = originalGet;
   }
+});
+
+test("first search input requests dictionary data", async () => {
+  const requests = [];
+  const { props } = loadDictionarySearch(async (word) => {
+    requests.push(word);
+    return [];
+  });
+
+  await props.onSearchTextChange("hello");
+
+  assert.equal(props.throttle, true);
+  assert.deepEqual(requests, ["hello"]);
+});
+
+test("later search result does not let an earlier request overwrite it", async () => {
+  const pending = new Map();
+  const { props, updates } = loadDictionarySearch(
+    (word) =>
+      new Promise((resolve) => {
+        pending.set(word, resolve);
+      })
+  );
+
+  const first = props.onSearchTextChange("first");
+  const second = props.onSearchTextChange("second");
+  pending.get("second")([{ id: "second" }]);
+  await second;
+  pending.get("first")([{ id: "first" }]);
+  await first;
+
+  assert.deepEqual(updates.filter(Array.isArray), [[{ id: "second" }]]);
 });
