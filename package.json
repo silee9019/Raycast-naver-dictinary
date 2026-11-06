@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "search-naver-english-dictionary",
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@12.18.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=26"
   },
   "title": "네이버 다국어 사전",
   "description": "Raycast에서 네이버 영한·국어·스페인어-한국어 사전 검색",
