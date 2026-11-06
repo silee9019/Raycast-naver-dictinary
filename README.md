@@ -32,8 +32,7 @@ Raycast 표시 이름: `네이버 다국어 사전`
 #### 사전 요구사항
 
 - [Raycast](https://raycast.com/) 설치 필요
-- [Node.js](https://nodejs.org/) 18.x 이상
-- pnpm 9.15.4 (`package.json`의 `packageManager` 기준)
+- Node.js 26, pnpm 12.18.0 (`.mise.toml` 기준, [mise](https://mise.jdx.dev/)로 `mise install`)
 
 #### 설치 단계
 
@@ -43,10 +42,9 @@ git clone https://github.com/silee9019/Raycast-naver-dictinary.git
 cd Raycast-naver-dictinary
 ```
 
-**2. pnpm 버전 준비**
+**2. Node·pnpm 준비**
 ```bash
-corepack enable
-corepack prepare pnpm@9.15.4 --activate
+mise install
 ```
 > `package.json`의 `packageManager`와 동일한 pnpm 버전을 사용하면 잠금 파일 변경을 줄일 수 있습니다.
 
