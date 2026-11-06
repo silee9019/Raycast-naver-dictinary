@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "search-naver-english-dictionary",
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@12.18.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=26"
   },
   "title": "네이버 다국어 사전",
   "description": "Raycast에서 네이버 영한·국어·스페인어-한국어 사전 검색",
@@ -94,18 +94,5 @@
     "lint": "ray lint",
     "test": "node --test tests/dictionaries.test.cjs",
     "publish": "pnpm dlx @raycast/api@latest publish"
-  },
-  "pnpm": {
-    "overrides": {
-      "follow-redirects": "1.16.0",
-      "minimatch": "9.0.9",
-      "brace-expansion": "2.0.3",
-      "picomatch": "4.0.4",
-      "flatted": "3.4.2",
-      "fast-uri": "3.1.2",
-      "esbuild": "0.28.1",
-      "ajv@6": "6.14.0",
-      "ajv@8": "8.20.0"
-    }
   }
 }
